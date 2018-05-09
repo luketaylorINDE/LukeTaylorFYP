@@ -1,10 +1,12 @@
 const int sampleWindow = 50;
 unsigned int sample;
 
+int peakMin;
+int peakMax;
+
 void setup() {
   Serial.begin(9600);
 }
-
 void loop() {
   unsigned long startMillis = millis();
   unsigned int peakToPeak = 0;
@@ -25,8 +27,17 @@ void loop() {
   }
   peakToPeak = signalMax - signalMin;
   double volts = (peakToPeak * 5.0) / 1024;
-
+  
   //Serial.println(volts);
-  Serial.println (peakToPeak);
+  //Serial.println (peakToPeak);
+
+ if (peakToPeak < 25) {
+  Serial.println("normal");
+ } else if (peakToPeak > 24 && peakToPeak < 60) {
+  Serial.println("Shower Running");
+ }
+
+  
 }
+
 
