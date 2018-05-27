@@ -3,39 +3,20 @@
 #include <PubSubClient.h>
 #include <Wire.h>
 
+
+//wifi settings
+const char* wifiSsid = "TALKTALK765411";
+const char* wifiPassword = "A3B9N6G9";
+//setting values to connect to mobile hotspot
+//const char* wifiSsid = "Luke's iPhone";
+//const char* wifiPassword = "luket9632";
+
 //initialise libraries
 WiFiClient wifiConnection;
 PubSubClient mqttClient(wifiConnection);
 
-//wifi settings
-<<<<<<< HEAD
-const char* wifiSsid = "TALKTALK765411";
-const char* wifiPassword = "A3B9N6G9";
-
-//setting values to connect to mobile hotspot
-//const char*  wifiSsid = "Luke's iPhone";
-//const char* wifiPassword = "luket9632";
-
-//uni wifi
-//const char*  wifiSsid = "TP-LINK";
-//const char* wifiPassword = "84478221";
-=======
-//const char* wifiSsid = "TALKTALK765411";
-//const char* wifiPassword = "A3B9N6G9";
-//setting values to connect to mobile hotspot
-const char* wifiSsid = "Luke's iPhone";
-const char*  wifiPassword = "luket9632";
->>>>>>> 0b453cabc86688afdff79bfb6e1056a8164f9e6a
-
 //mqtt settings
-//home desktop
-//const char* mqttHost = "192.168.1.2";
-
-//home laptop
-const char* mqttHost = "192.168.1.6";
-
-//uni
-//onst char* mqttHost = "192.168.1.100";
+const char* mqttHost = "192.168.1.12";
 const int mqttPort = 1883;
 
 // MPU6050 Device Address
@@ -43,7 +24,7 @@ const uint8_t MPU6050SlaveAddress = 0x68;
 
 // Select pins for gyro/accel 
 const uint8_t scl = D6;
-const uint8_t sda = D7;
+const uint8_t sda = D5;
 
 //sensitivity scale provided in datasheet 
 const uint16_t AccelScaleFactor = 16384;
@@ -173,7 +154,7 @@ void loop() {
 
   if (mode == 1) {
   Read_RawValue(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H);
-  /*if (AccelY > 5000){
+  if (AccelX > 5000){
     tapState = "on";
     waterUse = waterUse + 0.2;
   } else {
@@ -184,12 +165,8 @@ void loop() {
   }
   //divScale();
   
-  //dataWrite();*/
-
-  Serial.print(AccelX);
-  Serial.print(AccelY);
-  Serial.print(AccelZ);
-  
+  //dataWrite();
+ 
   delay(500);
 }
 
@@ -215,7 +192,7 @@ void Read_RawValue(uint8_t deviceAddress, uint8_t regAddress){
 }
 
 //configure MPU6050
-void MPU6050_Init() {
+void MPU6050_Init(){
   delay(150);
   I2C_Write(MPU6050SlaveAddress, MPU6050_REGISTER_SMPLRT_DIV, 0x07);
   I2C_Write(MPU6050SlaveAddress, MPU6050_REGISTER_PWR_MGMT_1, 0x01);
@@ -228,4 +205,3 @@ void MPU6050_Init() {
   I2C_Write(MPU6050SlaveAddress, MPU6050_REGISTER_SIGNAL_PATH_RESET, 0x00);
   I2C_Write(MPU6050SlaveAddress, MPU6050_REGISTER_USER_CTRL, 0x00);
 }
-
