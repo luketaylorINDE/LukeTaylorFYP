@@ -8,11 +8,11 @@ WiFiClient wifiConnection;
 PubSubClient mqttClient(wifiConnection);
 
 //wifi settings
-const char* wifiSsid = "TALKTALK765411";
-const char* wifiPassword = "A3B9N6G9";
+//const char* wifiSsid = "TALKTALK765411";
+//const char* wifiPassword = "A3B9N6G9";
 //setting values to connect to mobile hotspot
-//const char* ssid = "";
-//const char* password = "";
+const char* wifiSsid = "Luke's iPhone";
+const char*  wifiPassword = "luket9632";
 
 //mqtt settings
 const char* mqttHost = "192.168.1.2";
