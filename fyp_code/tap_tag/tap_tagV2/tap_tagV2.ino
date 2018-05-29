@@ -5,19 +5,27 @@
 
 
 //wifi settings
-const char* wifiSsid = "TALKTALK765411";
-const char* wifiPassword = "A3B9N6G9";
+//const char* wifiSsid = "TALKTALK765411";
+//const char* wifiPassword = "A3B9N6G9";
 //setting values to connect to mobile hotspot
 //const char* wifiSsid = "Luke's iPhone";
 //const char* wifiPassword = "luket9632";
+//uni wifi
+const char*  wifiSsid = "TP-LINK";
+const char* wifiPassword = "84478221";
 
 //initialise libraries
 WiFiClient wifiConnection;
 PubSubClient mqttClient(wifiConnection);
 
 //mqtt settings
-const char* mqttHost = "192.168.1.12";
 const int mqttPort = 1883;
+//home
+//const char* mqttHost = "192.168.1.12";
+//home laptop
+//const char* mqttHost = "192.168.1.6";
+//uni tp-link
+const char* mqttHost = "192.168.1.100";
 
 // MPU6050 Device Address
 const uint8_t MPU6050SlaveAddress = 0x68;
@@ -51,6 +59,9 @@ int mode = 1;
 
 String tapState = "off";
 float waterUse = 0;
+long started;
+long finish;
+float water;
 
 void setup() {
   Serial.begin(115200);
@@ -154,21 +165,62 @@ void loop() {
 
   if (mode == 1) {
   Read_RawValue(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H);
-  if (AccelX > 5000){
+  if (AccelX > 8000){
     tapState = "on";
-    waterUse = waterUse + 0.2;
+    waterUse = waterUse + 0.02;
   } else {
     tapState = "off";
   }
   Serial.print("Liters: ");
   Serial.println(waterUse);
   }
-  //divScale();
+
+  if (mode == 2) {
+  Read_RawValue(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H);
+  if (AccelY > 10000){
+    tapState = "on";
+    waterUse = waterUse + 0.02;
+  } else {
+    tapState = "off";
+  } if (AccelY < -10000){
+    tapState = "on";
+    waterUse = waterUse + 0.02;
+  } else {
+    tapState = "off";
+  }
   
-  //dataWrite();
- 
-  delay(500);
+  //Serial.println(AccelX);
+  Serial.print("Liters: ");
+  Serial.println(waterUse);
+  }
+
+  if (mode == 3) {
+    Read_RawValue(MPU6050SlaveAddress, MPU6050_REGISTER_ACCEL_XOUT_H);
+    if ((GyroX > 800) || (GyroX < -800)) {
+      if(tapState == "off"){
+      tapState = "on";
+      delay(500);
+      //started.millis();
+      started = millis();
+      }else if(tapState == "on") {
+        tapState = "off";
+        delay(500);
+        finish = millis();
+        water = (finish - started) / 1000;
+        water = water * 0.2;
+        waterUse = waterUse + water;
+      }
+    }
+    //Serial.println(tapState);
+    Serial.print("Liters: ");
+    Serial.println(waterUse);
+    //Serial.println(water);
+  }
+  delay(100);
 }
+  
+ 
+
 
 void I2C_Write(uint8_t deviceAddress, uint8_t regAddress, uint8_t data){
   Wire.beginTransmission(deviceAddress);

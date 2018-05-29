@@ -8,19 +8,28 @@ WiFiClient wifiConnection;
 PubSubClient mqttClient(wifiConnection);
 
 //wifi settings
-const char* wifiSsid = "TALKTALK765411";
-const char* wifiPassword = "A3B9N6G9";
+//const char* wifiSsid = "TALKTALK765411";
+//const char* wifiPassword = "A3B9N6G9";
 //setting values to connect to mobile hotspot
-//const char* ssid = "";
-//const char* password = "";
+//const char* wifiSsid = "Luke's iPhone";
+//const char* wifiPassword = "luket9632";
+//uni wifi
+const char*  wifiSsid = "TP-LINK";
+const char* wifiPassword = "84478221";
 
 //mqtt settings
-const char* mqttHost = "192.168.1.2";
 const int mqttPort = 1883;
+//home
+//const char* mqttHost = "192.168.1.12";
+//home laptop
+//const char* mqttHost = "192.168.1.6";
+//uni tp-link
+const char* mqttHost = "192.168.1.100";
+
 
 float data;
 #define PIN 4
-uint8_t NUMPIXELS = 55;
+uint8_t NUMPIXELS = 54;
       
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_RGB + NEO_KHZ800);
 
@@ -79,6 +88,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
      payload[length] = '\0';
      String s = String((char*)payload);
       data = s.toFloat();
+      
     
   }
 

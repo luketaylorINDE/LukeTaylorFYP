@@ -1,7 +1,7 @@
 const mqtt = require ('mqtt');
 
-//var client  = mqtt.connect('mqtt://192.168.1.100');
-var client  = mqtt.connect('mqtt://192.168.1.6');
+var client  = mqtt.connect('mqtt://192.168.1.100');
+//var client  = mqtt.connect('mqtt://192.168.1.6');
 
 var data;
 var timer = 0.1, intervalMins = timer * 60 * 1000;

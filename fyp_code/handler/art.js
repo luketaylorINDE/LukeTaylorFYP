@@ -1,6 +1,7 @@
 const mqtt = require ('mqtt');
 
 var client  = mqtt.connect('mqtt://192.168.1.100');
+//var client  = mqtt.connect('mqtt://192.168.1.6');
 
 var timer = 0.1, intervalMins = timer * 60 * 1000;
 
@@ -21,7 +22,8 @@ client.on('connect', function(){
                 sendData = sendData.slice(12);
                 sendData = sendData.substring(0, sendData.length - 3);
                 sendData = sendData.replace(/\s/g,'');
-                console.log(sendData);
+                console.log("liters: " + sendData);
+                console.log("");
                 client.publish('waterUsage3',sendData);
           });
         });
